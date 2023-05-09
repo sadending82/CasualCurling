@@ -37,3 +37,14 @@
 |8주차(5/23 ~ 5/29)|시작 및 모드 선택 화면 UI 배치 및 제작|
 |9주차(5/30 ~ 6/5)|디버그 및 최종 검수|
  
+ 
+ 
+## 1주차
+
+### 리소스 제작 및 수집
+<p align="center">
+  <img scr="https://user-images.githubusercontent.com/34495894/236975055-1d07070b-3dea-4be9-a279-f24a318c18d7.PNG">
+</p>
+
+
+
