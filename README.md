@@ -95,6 +95,7 @@
 
 
 ## MainScene에 등장하는 Object
+![image](https://user-images.githubusercontent.com/34495894/236982122-e8423928-0b8a-4ded-9d25-6df69b00bd43.png)
 
 기본적으로 MainScene에 등장하는 것은 컬링 스톤과 컬링 경기장 입니다.
 
