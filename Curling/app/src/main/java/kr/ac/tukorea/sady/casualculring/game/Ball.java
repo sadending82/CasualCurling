@@ -9,7 +9,7 @@ public class Ball extends Sprite {
     private float dx, dy;
 
     public Ball(float dx, float dy) {
-        super(R.mipmap.stone_red, 2.0f, 2.0f, 0.5f, 0.5f);
+        super(R.mipmap.stone_red, 2.0f, 2.0f, 1.0f, 1.0f);
         this.dx = dx;
         this.dy = dy;
 

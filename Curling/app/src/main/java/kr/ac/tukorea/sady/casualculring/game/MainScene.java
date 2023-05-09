@@ -8,24 +8,23 @@ import kr.ac.tukorea.sady.casualculring.framework.BaseScene;
 import kr.ac.tukorea.sady.casualculring.framework.Metrics;
 
 public class MainScene extends BaseScene {
-    private Fighter fighter;
     private BackGround bg;
+    private BackGroundHouse bg_house;
     public MainScene() {
 //        Metrics.setGameSize(10.0f, 10.0f);
 
         bg = new BackGround();
         add(bg);
 
+        bg_house = new BackGroundHouse();
+        add(bg_house);
+
         Random r = new Random();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             float dx = r.nextFloat() * 5.0f + 3.0f;
             float dy = r.nextFloat() * 5.0f + 3.0f;
             add(new Ball(dx, dy));
         }
-
-        fighter = new Fighter();
-        add(fighter);
-
 
     }
 
@@ -37,10 +36,6 @@ public class MainScene extends BaseScene {
             case MotionEvent.ACTION_MOVE:
                 float x = Metrics.toGameX(event.getX());
                 float y = Metrics.toGameY(event.getY());
-                fighter.setTargetPosition(x, y);
-//                if (action == MotionEvent.ACTION_DOWN) {
-//                    fighter.fire();
-//                }
                 return true;
         }
         return super.onTouchEvent(event);
