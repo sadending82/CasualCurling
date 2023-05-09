@@ -42,9 +42,7 @@
 ## 1주차
 
 ### 리소스 제작 및 수집
-<p align="center">
-  <img scr="https://user-images.githubusercontent.com/34495894/236975055-1d07070b-3dea-4be9-a279-f24a318c18d7.PNG">
-</p>
+![image](https://user-images.githubusercontent.com/34495894/236975742-3e199214-5709-42ac-88be-8e3a9805dfde.png)
 
 
 
