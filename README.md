@@ -75,7 +75,8 @@
 
 
 ## Git Commit 횟수
-![image](https://user-images.githubusercontent.com/34495894/236976274-b7b57850-2e0d-44e5-aa15-caf238c9a621.png)
+
+![image](https://user-images.githubusercontent.com/34495894/236981843-a8ce4de5-1e00-4649-b9bd-b544019fda9b.png)
 
 |주차|횟수|
 |:---|:---|
@@ -102,6 +103,10 @@
 
 Stone의 경우 위와 같은 형식으로 상속을 받고 있습니다. 기본적으로 교수님의 Framework를 참고하여 제작하였고, 따로 충돌처리를 위한 PhysicsObject class를 추가하였습니다.
 
+
+
+
+
 #### PhysicsObject
 
 PhysicsObject는 속도를 바탕으로 한 움직임 및 충돌 등 물리적인 처리를 요구하는 오브젝트를 정의하는 클래스입니다. 해당 클래스의 코드에는 속도를 바탕으로 하는 이동 및 마찰력의 계산, 충돌 시 탄성 충돌을 하도록 하는 코드 등이 포함되어 있습니다.
@@ -111,6 +116,9 @@ PhysicsObject는 속도를 바탕으로 한 움직임 및 충돌 등 물리적�
 ![image](https://user-images.githubusercontent.com/34495894/236980666-bbc53c07-e669-4c87-ac49-3319d3424237.png)
 
 위는 Update에서 속도 만큼의 위치를 더해주고 속도에 마찰력을 설정해 마찰력 만큼 속도를 줄여주는 코드입니다.
+
+
+
 
 
 
