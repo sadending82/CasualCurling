@@ -13,20 +13,39 @@ public class PhysicsObject extends Sprite {
     public PhysicsObject(int bitmapResId, float cx, float cy, float width, float height) {
         super(bitmapResId, cx, cy, width, height);
         velocity = new Vector2(0.f, 0.f);
-        friction = 0.01f;
+        friction = 0.1f;
         elasticity = 0.0f;
     }
 
     @Override
     public void update() {
-        x += velocity.x;
-        y += velocity.y;
+        if(velocity.magnitude() != 0f) {
+            dstRect.offset(velocity.x * BaseScene.frameTime, velocity.y * BaseScene.frameTime);
+            x += velocity.x * BaseScene.frameTime;
+            y += velocity.y * BaseScene.frameTime;
 
-        Vector2 frictionVector = new Vector2(velocity.x, velocity.y);
-        frictionVector.normalize();
 
-        velocity.x -= frictionVector.x * friction;
-        velocity.y -= frictionVector.y * friction;
+            Vector2 frictionVector = new Vector2(velocity.x, velocity.y);
+            frictionVector.normalize();
+
+            velocity.x -= frictionVector.x * friction * BaseScene.frameTime;
+            velocity.y -= frictionVector.y * friction * BaseScene.frameTime;
+
+            if (velocity.magnitude() < 0.00001) {
+                velocity.x = 0f;
+                velocity.y = 0f;
+            }
+        }
+    }
+
+    public boolean isCollide(PhysicsObject phy) {
+        float dist = (float)Math.sqrt( Math.pow(phy.x - x, 2) + Math.pow(phy.y - y, 2) );
+
+        return dist <= size + phy.size;
+    }
+
+    public void CollisionExit(PhysicsObject phy) {
+
     }
 
     public void Collision(PhysicsObject phy) {
