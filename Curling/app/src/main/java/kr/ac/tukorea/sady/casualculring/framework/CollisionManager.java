@@ -11,7 +11,7 @@ public class CollisionManager implements IGameObject {
     ArrayList<PhysicsObject> HasCollideObjects;
     HashMap<Integer, Pair> OnCollisionObjects;
 
-    CollisionManager() {
+    public CollisionManager() {
         OnCollisionObjects = new HashMap<>(140);
     }
 

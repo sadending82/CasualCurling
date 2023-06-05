@@ -23,8 +23,14 @@ public class MainScene extends BaseScene {
         bg_house = new BackGroundHouse();
         add(bg_house);
 
+        cm = new CollisionManager();
+
         Stone r_stone = new Stone(R.mipmap.stone_red, 1.0f, 1.0f);
         add(r_stone);
+        Stone y_stone = new Stone(R.mipmap.stone_yellow, 1.0f, 2.0f);
+        add(y_stone);
+        cm.InsertObject(r_stone);
+        cm.InsertObject(y_stone);
     }
 
     @Override
