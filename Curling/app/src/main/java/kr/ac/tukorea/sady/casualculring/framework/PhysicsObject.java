@@ -13,7 +13,7 @@ public class PhysicsObject extends Sprite {
     public PhysicsObject(int bitmapResId, float cx, float cy, float width, float height) {
         super(bitmapResId, cx, cy, width, height);
         velocity = new Vector2(0.f, 0.f);
-        friction = 0.1f;
+        friction = 0.2f;
         elasticity = 0.0f;
     }
 
@@ -80,7 +80,7 @@ public class PhysicsObject extends Sprite {
 
         // 투영이 되었으므로 방향은 충돌 벡터 방향임.
         Vector2 PhyColProj = new Vector2(PhyCenterToContact.x * PhyColProjLength,
-                PhyCenterToContact.x * PhyColProjLength);
+                PhyCenterToContact.y * PhyColProjLength);
 
         // 노말 벡터
         float PhyNormProjLength = PhyVelocity.dot(PhyNormal);

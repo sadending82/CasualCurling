@@ -26,12 +26,13 @@ public class MainScene extends BaseScene {
         cm = new CollisionManager();
         add(cm);
 
-        Stone r_stone = new Stone(R.mipmap.stone_red, 1.2f, 1.0f);
+        Stone r_stone = new Stone(R.mipmap.stone_red, 3f, 3.0f);
         add(r_stone);
-        r_stone.velocity.y = 2.0f;
-        Stone y_stone = new Stone(R.mipmap.stone_yellow, 1.0f, 6.0f);
+       // r_stone.velocity.y = 2.0f;
+        Stone y_stone = new Stone(R.mipmap.stone_yellow, 1.0f, 9.0f);
         add(y_stone);
-//        y_stone.velocity.y = -1.0f;
+        y_stone.velocity.x = 1.8f;
+        y_stone.velocity.y = -4f;
         cm.InsertObject(r_stone);
         cm.InsertObject(y_stone);
     }
