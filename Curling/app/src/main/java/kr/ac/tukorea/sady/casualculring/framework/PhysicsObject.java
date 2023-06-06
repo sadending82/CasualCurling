@@ -50,30 +50,74 @@ public class PhysicsObject extends Sprite {
 
     public void Collision(PhysicsObject phy) {
 
-        // 두 물체 사이의 상대적인 위치를 구합니다.
-        float dx = phy.x - x;
-        float dy = phy.y - y;
+        // 두 물체 각각 컨택트 포인트로 향하는 벡터 (정규화 된 것)을 구한다
+        // 이는 충돌 벡터라고 명명.
+        Vector2 PhyCenterToContact = new Vector2();
+        PhyCenterToContact.x = x - phy.x;
+        PhyCenterToContact.y = y - phy.y;
+        PhyCenterToContact.normalize();
 
-        // 벡터의 길이를 구합니다.
-        float dist = (float)Math.sqrt(dx * dx + dy + dy);
+        Vector2 ThisCenterToContact = new Vector2();
+        ThisCenterToContact.x = phy.x - x;
+        ThisCenterToContact.y = phy.y - y;
+        ThisCenterToContact.normalize();
 
-        // 상대 위치를 길이로 나누어 정규화된 노말 벡터를 구합니다.
-        float nx = dx / dist;
-        float ny = dy / dist;
+        // 노말 벡터를 구한다(이는 그저 90도를 회전시킨 벡터임)
+        Vector2 PhyNormal = new Vector2(-PhyCenterToContact.y, PhyCenterToContact.x);
+        Vector2 ThisNormal = new Vector2(-ThisCenterToContact.y, ThisCenterToContact.x);
 
-        // 두 물체의 상대적인 속도를 구합니다.
-        float kx = phy.velocity.x - velocity.x;
-        float ky = phy.velocity.y - velocity.y;
+        // 속도 벡터를 충돌 벡터와 노말 벡터 각각에 투영 시킨다.
+        // 이렇게 되면 충돌 벡터에 투영된 것은 부딪힌 속도가 되고,
+        // 노말벡터에 투영된 것은 그와 완전 수직인 속도가 된다.
 
-        // 속도와 노말벡터를 바탕으로 탄성 충돌 공식을 활용하여 충력량을 구합니다.
-        float p = 2 * (kx * nx + ky * ny) / (mass * 2);
+        Vector2 PhyVelocity = phy.velocity;
+        Vector2 ThisVelocity = velocity;
 
-        // 노말벡터에 충격량을 곱하여 속도를 재설정 해줍니다.
-        velocity.x = -1 * p * mass * nx;
-        velocity.y = -1 * p * mass * ny;
+        // 받아온 거에 대한 계산
+        // 충돌 벡터
+        // 투영된 벡터의 길이
+        float PhyColProjLength = PhyVelocity.dot(PhyCenterToContact);
 
-        phy.velocity.x = p * mass * nx;
-        phy.velocity.y = p * mass * ny;
+        // 투영이 되었으므로 방향은 충돌 벡터 방향임.
+        Vector2 PhyColProj = new Vector2(PhyCenterToContact.x * PhyColProjLength,
+                PhyCenterToContact.x * PhyColProjLength);
+
+        // 노말 벡터
+        float PhyNormProjLength = PhyVelocity.dot(PhyNormal);
+
+        Vector2 PhyNormProj = new Vector2(PhyNormal.x * PhyNormProjLength,
+                PhyNormal.y * PhyNormProjLength);
+
+        // 이 오브젝트에 대한 계산
+        // 충돌 벡터
+        float ThisColProjLength = ThisVelocity.dot(ThisCenterToContact);
+
+        Vector2 ThisColProj = new Vector2(ThisCenterToContact.x * ThisColProjLength,
+                ThisCenterToContact.y * ThisColProjLength);
+
+        // 노말 벡터
+        float ThisNormProjLength = ThisVelocity.dot(ThisNormal);
+
+        Vector2 ThisNormProj = new Vector2(ThisNormal.x * ThisNormProjLength,
+                ThisNormal.y * ThisNormProjLength);
+
+        // 충돌 벡터에 대해서는 교환해 주고, 노말 벡터는 그대로 둔 뒤, 더 해주면 된다.
+
+        // 받아 온 것
+        // 현재 오브젝트의 충돌 벡터 + 받아 온 것의 노말 벡터
+        Vector2 NewPhyVel = new Vector2(ThisColProj.x + PhyNormProj.x,
+                ThisColProj.y + PhyNormProj.y);
+
+        // 현재 오브젝트
+        // 받아 온 것의 충돌 벡터 + 받아 온 것의 노말 벡터
+        Vector2 NewThisVel = new Vector2(PhyColProj.x + ThisNormProj.x,
+                PhyColProj.y + ThisNormProj.y);
+
+        phy.velocity = NewPhyVel;
+        velocity = NewThisVel;
+
     }
+
+
 
 }
