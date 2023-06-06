@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class CollisionManager implements IGameObject {
 
-    ArrayList<PhysicsObject> HasCollideObjects;
-    HashMap<Integer, Pair> OnCollisionObjects;
+    ArrayList<PhysicsObject> HasCollideObjects = new ArrayList<PhysicsObject>();
+    HashMap<Integer, Pair> OnCollisionObjects = new HashMap<Integer, Pair>();
 
     public CollisionManager() {
         OnCollisionObjects = new HashMap<>(140);
@@ -22,6 +22,8 @@ public class CollisionManager implements IGameObject {
             for (int j = 0; j < HasCollideObjects.size(); j++){
                 // 이미 충돌이 되고 있는 객체라면 넘기기
                 if(OnCollisionObjects.containsKey(i*j)) continue;
+
+                if(i == j) continue;
 
                 // 그 외에 충돌이 되었는지 확인
                 if(HasCollideObjects.get(i).isCollide(HasCollideObjects.get(j))) {

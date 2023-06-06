@@ -8,7 +8,7 @@ public class PhysicsObject extends Sprite {
 
     public float mass = 1.0f;
 
-    protected float size = 1.0f;
+    protected float size = 0.5f;
 
     public PhysicsObject(int bitmapResId, float cx, float cy, float width, float height) {
         super(bitmapResId, cx, cy, width, height);

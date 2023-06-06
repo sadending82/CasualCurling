@@ -24,11 +24,14 @@ public class MainScene extends BaseScene {
         add(bg_house);
 
         cm = new CollisionManager();
+        add(cm);
 
         Stone r_stone = new Stone(R.mipmap.stone_red, 1.0f, 1.0f);
         add(r_stone);
-        Stone y_stone = new Stone(R.mipmap.stone_yellow, 1.0f, 2.0f);
+        r_stone.velocity.y = 1.0f;
+        Stone y_stone = new Stone(R.mipmap.stone_yellow, 1.0f, 6.0f);
         add(y_stone);
+        y_stone.velocity.y = -1.0f;
         cm.InsertObject(r_stone);
         cm.InsertObject(y_stone);
     }
