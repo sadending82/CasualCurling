@@ -31,6 +31,16 @@ public class BaseScene {
         return objects.size();
     }
 
+    public int remove(IGameObject gobj) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                objects.remove(gobj);
+            }
+        });
+        return objects.size();
+    }
+
     public void update(long elapsedNanos) {
         frameTime = elapsedNanos / 1_000_000_000f;
         for (IGameObject gobj : objects) {

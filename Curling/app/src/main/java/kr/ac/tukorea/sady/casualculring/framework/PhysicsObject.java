@@ -8,12 +8,12 @@ public class PhysicsObject extends Sprite {
 
     public float mass = 1.0f;
 
-    protected float size = 0.5f;
+    protected float size = 0.4f;
 
     public PhysicsObject(int bitmapResId, float cx, float cy, float width, float height) {
         super(bitmapResId, cx, cy, width, height);
         velocity = new Vector2(0.f, 0.f);
-        friction = 0.2f;
+        friction = 1.0f;
         elasticity = 0.0f;
     }
 
@@ -28,10 +28,34 @@ public class PhysicsObject extends Sprite {
             Vector2 frictionVector = new Vector2(velocity.x, velocity.y);
             frictionVector.normalize();
 
-            velocity.x -= frictionVector.x * friction * BaseScene.frameTime;
-            velocity.y -= frictionVector.y * friction * BaseScene.frameTime;
+            Vector2 normalVel = new Vector2(velocity.x, velocity.y);
+            normalVel.normalize();
 
-            if (velocity.magnitude() < 0.00001) {
+            // 속도가 양수 -> 음수 또는 음수 -> 양수로 변하는 경우, 마찰력의 방향이 반대가 되는 것이므로
+            // 이 부분은 수정이 필요하다.
+
+            if(velocity.x > 0 && velocity.x - normalVel.x * friction * BaseScene.frameTime < 0f){
+                    velocity.x = 0f;
+                    velocity.y = 0f;
+            }
+            else if(velocity.x < 0 && velocity.x - normalVel.x * friction * BaseScene.frameTime > 0f) {
+                    velocity.x = 0f;
+                    velocity.y = 0f;
+            }
+            else if(velocity.y > 0 && velocity.y - normalVel.x * friction * BaseScene.frameTime < 0f){
+                velocity.x = 0f;
+                velocity.y = 0f;
+            }
+            else if(velocity.y < 0 && velocity.y - normalVel.x * friction * BaseScene.frameTime > 0f) {
+                velocity.x = 0f;
+                velocity.y = 0f;
+            }
+            else {
+                velocity.x -= normalVel.x * friction * BaseScene.frameTime;
+                velocity.y -= normalVel.y * friction * BaseScene.frameTime;
+            }
+
+            if (velocity.magnitude() < 0.005f) {
                 velocity.x = 0f;
                 velocity.y = 0f;
             }

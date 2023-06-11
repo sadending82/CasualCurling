@@ -9,6 +9,6 @@ public class BackGroundHouse extends Sprite {
 
 
     public BackGroundHouse() {
-        super(R.mipmap.curling_map_circle, Metrics.game_width/2f, 2.4f, 4.8f, 4.8f );
+        super(R.mipmap.curling_map_circle, 4.5f, 2.4f, 4.8f, 4.8f );
     }
 }

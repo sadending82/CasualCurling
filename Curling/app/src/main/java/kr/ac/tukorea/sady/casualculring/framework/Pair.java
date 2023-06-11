@@ -1,8 +1,8 @@
 package kr.ac.tukorea.sady.casualculring.framework;
 
 public class Pair {
-    PhysicsObject first;
-    PhysicsObject second;
+    public PhysicsObject first;
+    public PhysicsObject second;
 
     public Pair(PhysicsObject _first, PhysicsObject _second) {
         first = _first;

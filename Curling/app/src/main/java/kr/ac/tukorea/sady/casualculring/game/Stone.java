@@ -7,7 +7,7 @@ import kr.ac.tukorea.sady.casualculring.framework.PhysicsObject;
 public class Stone extends PhysicsObject {
 
     public Stone(int bitmapResId, float cx, float cy) {
-        super(bitmapResId, cx, cy, 1.0f, 1.0f);
+        super(bitmapResId, cx, cy, 0.8f, 0.8f);
     }
 
     @Override

@@ -7,7 +7,10 @@ import android.graphics.RectF;
 public class Sprite implements IGameObject {
     protected Bitmap bitmap;
     protected RectF dstRect = new RectF();
-    protected float x, y, width, height;
+    protected float x;
+    protected float y;
+    protected float width;
+    protected float height;
     public Sprite(int bitmapResId, float cx, float cy, float width, float height) {
         this.x = cx;
         this.y = cy;
@@ -27,6 +30,14 @@ public class Sprite implements IGameObject {
         float half_width = width / 2;
         float half_height = height / 2;
         dstRect.set(x - half_width, y - half_height, x + half_width, y + half_height);
+    }
+
+    public float GetX() {
+        return x;
+    }
+
+    public float GetY() {
+        return y;
     }
 
     @Override
