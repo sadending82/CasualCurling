@@ -142,6 +142,9 @@ public class PhysicsObject extends Sprite {
 
     }
 
+    public float GetSize(){
+        return size;
+    }
 
 
 }

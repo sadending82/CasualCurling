@@ -11,6 +11,7 @@ import kr.ac.tukorea.sady.casualculring.framework.Metrics;
 
 public class MainScene extends BaseScene {
 
+    private GameControl gc;
     public MainScene() {
 //        Metrics.setGameSize(10.0f, 10.0f);
 
@@ -23,19 +24,9 @@ public class MainScene extends BaseScene {
         CollisionManager cm = new CollisionManager();
         add(cm);
 
-        Stone r_stone1 = new Stone(R.mipmap.stone_red, 3f, 3.0f);
-        add(r_stone1);
+        gc = new GameControl(cm, this);
+        add(gc);
 
-        Stone r_stone2 = new Stone(R.mipmap.stone_red, 3.8f, 3.0f);
-        add(r_stone2);
-       // r_stone.velocity.y = 2.0f;
-        Stone y_stone1 = new Stone(R.mipmap.stone_yellow, 1.0f, 9.0f);
-        add(y_stone1);
-        y_stone1.velocity.x = 1.8f;
-        y_stone1.velocity.y = -4f;
-        cm.InsertObject(r_stone1);
-        cm.InsertObject(r_stone2);
-        cm.InsertObject(y_stone1);
     }
 
     @Override
@@ -45,16 +36,22 @@ public class MainScene extends BaseScene {
             case MotionEvent.ACTION_DOWN: {
                 float x = Metrics.toGameX(event.getX());
                 float y = Metrics.toGameY(event.getY());
+                gc.SetStartPos(x, y);
             }
+            return true;
             case MotionEvent.ACTION_MOVE: {
                 float x = Metrics.toGameX(event.getX());
                 float y = Metrics.toGameY(event.getY());
+                gc.SetTouchPos(x, y);
             }
+            return true;
             case MotionEvent.ACTION_UP: {
                 float x = Metrics.toGameX(event.getX());
                 float y = Metrics.toGameY(event.getY());
+                gc.SlideStart();
             }
-                return true;
+            return true;
+
         }
         return super.onTouchEvent(event);
     }

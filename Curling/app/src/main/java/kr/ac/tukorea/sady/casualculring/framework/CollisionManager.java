@@ -51,8 +51,15 @@ public class CollisionManager implements IGameObject {
         // 충돌 중인 모든 객체들이 여전히 충돌 중인지 확인하기.
         for (Map.Entry<Integer, Pair> entrySet : OnCollisionObjects.entrySet()) {
 
-            if(!HasCollideObjects.contains(entrySet.getValue().first) || !HasCollideObjects.contains(entrySet.getValue().second)){
-                entrySet.getValue().first.CollisionExit(entrySet.getValue().second);
+            if(!HasCollideObjects.contains(entrySet.getValue().first) ) {
+                entrySet.getValue().second.CollisionExit(entrySet.getValue().second);
+                if(!ExitObjs.contains(entrySet.getKey())) {
+                    ExitObjs.add(entrySet.getKey());
+                }
+                continue;
+            }
+
+            if(!HasCollideObjects.contains(entrySet.getValue().second)){
                 entrySet.getValue().second.CollisionExit(entrySet.getValue().first);
 
                 if(!ExitObjs.contains(entrySet.getKey())) {
@@ -72,6 +79,10 @@ public class CollisionManager implements IGameObject {
                 }
             }
 
+        }
+
+        for(int num : ExitObjs) {
+            OnCollisionObjects.remove(num);
         }
     }
 
