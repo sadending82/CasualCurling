@@ -27,7 +27,7 @@ public class Vector2 {
     }
 
     public float distance(Vector2 v) {
-       return (float)Math.sqrt((x - v.x)*(x - v.x) + (y - v.x) * (y - v.y));
+       return (float)Math.sqrt((x - v.x)*(x - v.x) + (y - v.y) * (y - v.y));
     }
 
     public float magnitude() {

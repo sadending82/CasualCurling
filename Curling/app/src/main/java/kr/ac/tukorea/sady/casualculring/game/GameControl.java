@@ -136,7 +136,7 @@ public class GameControl implements IGameObject {
 
     public void SlideStart() {
         if(isWaitPlayerControl) {
-            if(StartPos.distance(PosFromTouchEvent) > 0.1f) {
+            if(StartPos.distance(PosFromTouchEvent) > 0.7f) {
                 isWaitPlayerControl = false;
                 CurrentStone.velocity.x = (StartPos.x - PosFromTouchEvent.x) * IncreasedForce;
                 CurrentStone.velocity.y = (StartPos.y - PosFromTouchEvent.y) * IncreasedForce;
