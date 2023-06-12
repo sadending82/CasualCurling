@@ -37,6 +37,7 @@ public class MainScene extends BaseScene {
                 float x = Metrics.toGameX(event.getX());
                 float y = Metrics.toGameY(event.getY());
                 gc.SetStartPos(x, y);
+                gc.SetTouchPos(x, y);
             }
             return true;
             case MotionEvent.ACTION_MOVE: {
