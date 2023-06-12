@@ -27,6 +27,17 @@ public class GameControl implements IGameObject {
 
     private float IncreasedForce = 2.0f;
 
+    Vector2 Center = new Vector2(4.5f, 2.4f);
+    float HouseSizeRadius = 2.4f;
+
+    public int RedScore = 0;
+    public int YellowScore = 0;
+
+    public int CurRedScore = 0;
+    public int CurYellowScore = 0;
+
+    ArrayList<Stone> ExistStones = new ArrayList<>();
+
     public GameControl(CollisionManager cm, MainScene ms){
         m_cm = cm;
         m_ms = ms;
@@ -46,8 +57,11 @@ public class GameControl implements IGameObject {
     public boolean IsStonesAllStop() {
         for(PhysicsObject phy : m_cm.GetHasCollideObjects())
         {
-            if(phy.velocity.magnitude() > 0.f){
-                return false;
+            if(phy.GetX() < 9.0f - phy.GetSize() && phy.GetY() < 16.0 - phy.GetSize() &&
+            phy.GetX() > 0.0f + phy.GetSize() && phy.GetY() > 0.0f + phy.GetSize()) {
+                if (phy.velocity.magnitude() > 0.f) {
+                    return false;
+                }
             }
         }
 
@@ -59,8 +73,12 @@ public class GameControl implements IGameObject {
 
         if(!isWaitPlayerControl) {
             if (IsStonesAllStop()) {
+                if(CurrentStone != null) {
+                    // 현재 스코어를 계산한다.
+                    CalcScore();
+                }
                 int ret = TurnChange();
-                if (ret == -1){
+                if (ret == -1){ // -1이 전달되면 더이상 넣을 수 없는 것이다.
                     GameEnd();
                 }
             }
@@ -68,15 +86,61 @@ public class GameControl implements IGameObject {
 
     }
 
+    void CalcScore() {
+
+        ExistStones.sort((a, b) -> {
+            return Float.compare(a.GetDistance(Center), b.GetDistance(Center));
+        });
+
+        if(ExistStones.get(0).GetDistance(Center) < HouseSizeRadius + ExistStones.get(0).GetSize()) {
+            if (ExistStones.get(0).IsRed()) {
+                CurRedScore = 1;
+                if (ExistStones.size() > 1) {
+                    for (int i = 1; ExistStones.get(i).IsRed(); i++) {
+                        if(ExistStones.get(i).GetDistance(Center) < HouseSizeRadius + ExistStones.get(i).GetSize()) {
+                            CurRedScore++;
+                        }
+                    }
+                }
+            } else {
+                CurYellowScore = 1;
+                if (ExistStones.size() > 1) {
+                    for (int i = 1; !ExistStones.get(i).IsRed(); i++) {
+                        if(ExistStones.get(i).GetDistance(Center) < HouseSizeRadius + ExistStones.get(i).GetSize()) {
+                            CurYellowScore++;
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
     void GameEnd(){
-        
+        RedScore += CurRedScore;
+        YellowScore += CurYellowScore;
+
+        ResetGame();
+    }
+
+    void ResetGame() {
+        CurrentStone = null;
+
+       for(Stone st : ExistStones) {
+           m_cm.RemoveObject(st);
+           m_ms.remove(st);
+       }
+
+       ExistStones.clear();
     }
 
     public void SlideStart() {
         if(isWaitPlayerControl) {
-            isWaitPlayerControl = false;
-            CurrentStone.velocity.x = (StartPos.x - PosFromTouchEvent.x) * IncreasedForce;
-            CurrentStone.velocity.y = (StartPos.y - PosFromTouchEvent.y) * IncreasedForce;
+            if(StartPos.distance(PosFromTouchEvent) > 0.1f) {
+                isWaitPlayerControl = false;
+                CurrentStone.velocity.x = (StartPos.x - PosFromTouchEvent.x) * IncreasedForce;
+                CurrentStone.velocity.y = (StartPos.y - PosFromTouchEvent.y) * IncreasedForce;
+            }
         }
     }
 
@@ -91,7 +155,7 @@ public class GameControl implements IGameObject {
     }
 
     int TurnChange() {
-        if(m_cm.GetHasCollideObjects().size() >= 18){
+        if(m_cm.GetHasCollideObjects().size() >= 16){
             return -1;
         }
 
@@ -99,16 +163,18 @@ public class GameControl implements IGameObject {
         isWaitPlayerControl = true;
 
         if(isRedTurn){
-            Stone r_stone = new Stone(R.mipmap.stone_red, 4.5f, 13.0f);
+            Stone r_stone = new Stone(R.mipmap.stone_red, 4.5f, 13.0f, 0);
             m_ms.add(r_stone);
             m_cm.InsertObject(r_stone);
             CurrentStone = r_stone;
+            ExistStones.add(r_stone);
         }
         else {
-            Stone y_stone = new Stone(R.mipmap.stone_yellow, 4.5f, 13.0f);
+            Stone y_stone = new Stone(R.mipmap.stone_yellow, 4.5f, 13.0f, 1);
             m_ms.add(y_stone);
             m_cm.InsertObject(y_stone);
             CurrentStone = y_stone;
+            ExistStones.add(y_stone);
         }
 
         return 0;
