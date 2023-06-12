@@ -159,3 +159,5 @@ fabric.properties
  ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+Curling/.idea/deploymentTargetDropDown.xml
+Curling/app/release/output-metadata.json
