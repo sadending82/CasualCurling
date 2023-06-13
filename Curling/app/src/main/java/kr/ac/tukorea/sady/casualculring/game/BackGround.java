@@ -8,6 +8,6 @@ public class BackGround extends Sprite {
 
 
     public BackGround() {
-        super(R.mipmap.curling_map_ground, Metrics.game_width/2f, Metrics.game_height/2f, Metrics.game_height * 0.4f, Metrics.game_height );
+        super(R.mipmap.curling_map_ground, Metrics.game_width/2f, Metrics.game_height/2f, Metrics.game_height*2 , Metrics.game_height *2);
     }
 }

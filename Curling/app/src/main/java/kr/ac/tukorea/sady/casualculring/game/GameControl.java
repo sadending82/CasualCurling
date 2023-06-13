@@ -1,13 +1,17 @@
 package kr.ac.tukorea.sady.casualculring.game;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 
 import java.util.ArrayList;
 
 import kr.ac.tukorea.sady.casualculring.R;
+import kr.ac.tukorea.sady.casualculring.framework.BitmapPool;
 import kr.ac.tukorea.sady.casualculring.framework.CollisionManager;
 import kr.ac.tukorea.sady.casualculring.framework.IGameObject;
 import kr.ac.tukorea.sady.casualculring.framework.PhysicsObject;
+import kr.ac.tukorea.sady.casualculring.framework.Sprite;
 import kr.ac.tukorea.sady.casualculring.framework.Vector2;
 
 public class GameControl implements IGameObject {
@@ -25,7 +29,7 @@ public class GameControl implements IGameObject {
 
     private MainScene m_ms;
 
-    private float IncreasedForce = 2.0f;
+    private final float IncreasedForce = 2.0f;
 
     Vector2 Center = new Vector2(4.5f, 2.4f);
     float HouseSizeRadius = 2.4f;
@@ -35,6 +39,9 @@ public class GameControl implements IGameObject {
 
     public int CurRedScore = 0;
     public int CurYellowScore = 0;
+
+
+    private boolean touchStart;
 
     ArrayList<Stone> ExistStones = new ArrayList<>();
 
@@ -135,6 +142,9 @@ public class GameControl implements IGameObject {
     }
 
     public void SlideStart() {
+
+        touchStart = false;
+
         if(isWaitPlayerControl) {
             if(StartPos.distance(PosFromTouchEvent) > 0.7f) {
                 isWaitPlayerControl = false;
@@ -142,16 +152,58 @@ public class GameControl implements IGameObject {
                 CurrentStone.velocity.y = (StartPos.y - PosFromTouchEvent.y) * IncreasedForce;
             }
         }
+        else {
+            float mx = (StartPos.x - PosFromTouchEvent.x);
+
+            if (mx > 0){
+                Vector2 newVel = new Vector2(CurrentStone.velocity.x, CurrentStone.velocity.y);
+
+                float power = newVel.magnitude();
+
+                newVel.normalize();
+
+                newVel.x -= 0.1f;
+
+                newVel.normalize();
+
+                newVel.x *= power;
+                newVel.y *= power;
+                CurrentStone.velocity.x = newVel.x;
+                CurrentStone.velocity.y = newVel.y;
+            }
+            else {
+                Vector2 newVel = new Vector2(CurrentStone.velocity.x, CurrentStone.velocity.y);
+
+                float power = newVel.magnitude();
+
+                newVel.normalize();
+
+                newVel.x += 0.1f;
+
+                newVel.normalize();
+
+                newVel.x *= power;
+                newVel.y *= power;
+                CurrentStone.velocity.x = newVel.x;
+                CurrentStone.velocity.y = newVel.y;
+            }
+
+
+        }
     }
 
     public void SetTouchPos(float x, float y) {
         PosFromTouchEvent.x = x;
         PosFromTouchEvent.y = y;
+
+
     }
 
     public void SetStartPos(float x, float y) {
         StartPos.x = x;
         StartPos.y = y;
+        touchStart = true;
+
     }
 
     int TurnChange() {
